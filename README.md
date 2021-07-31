@@ -10,6 +10,7 @@ Open-Cv Python
 Web Cam
 
 Update
-  This version can remember and recognize many people
-  Training and awareness at the same time(Part2.py)
+
+This version can remember and recognize many people
+Training and awareness at the same time(Part2.py)
   
