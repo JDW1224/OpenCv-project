@@ -1,6 +1,11 @@
 # OpenCv-project
 2021 cbnu contest
 
+출처 : https://www.cnblogs.com/AdaminXie/p/9010298.html
+
+파일의 용량이 큰 관계로 data/data_dlib 에 https://github.com/italojs/facial-landmarks-recognition/blob/master/shape_predictor_68_face_landmarks.dat 을 다운로드 받아서 넣어야 함 
+
+
 필요환경:
 
 dlib
