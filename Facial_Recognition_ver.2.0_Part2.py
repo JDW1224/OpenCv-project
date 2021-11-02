@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+import serial
+import time
 from os import listdir
 from os.path import isdir, isfile, join
 
@@ -76,12 +78,15 @@ def face_detector(img, size = 0.5):
 def run(models):    
     #카메라 열기 
     cap = cv2.VideoCapture(0)
-    
+    #시리얼 통신 포트 연결하기
+    ser = serial.Serial('COM5', 9600)
+
     while True:
         #카메라로 부터 사진 한장 읽기 
         ret, frame = cap.read()
         # 얼굴 검출 시도 
         image, face = face_detector(frame)
+        val = 0
         try:            
             min_score = 999       #가장 낮은 점수로 예측된 사람의 점수
             min_score_name = ""   #가장 높은 점수로 예측된 사람의 이름
@@ -107,6 +112,10 @@ def run(models):
             if confidence > 79:
                 cv2.putText(image, "Unlocked : " + min_score_name, (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 255, 0), 2)
                 cv2.imshow('Face Cropper', image)
+                val = 1
+                val = val.encode('utf-8')
+                ser.write(val)
+
             else:
             #80 이하면 타인.. Locked!!! 
                 cv2.putText(image, "Locked", (250, 450), cv2.FONT_HERSHEY_COMPLEX, 1, (0, 0, 255), 2)
@@ -118,6 +127,9 @@ def run(models):
             pass
         # 엔터키를 누르면 종료
         if cv2.waitKey(1)==13:
+            break
+        # 얼굴인식이 됐으면 종료
+        if val == 1:
             break
     cap.release()
     cv2.destroyAllWindows()
